@@ -23,6 +23,21 @@ export const List = props => {
         })
     }
 
+    const editHandler = (id, glucose, bread, insulin) =>{
+        setState(prev=>{
+            return{
+                ...prev,
+                [today] : prev[today].map(item=>{
+                    if(item.id === id) {
+                        return {...item, glucose, bread, insulin}
+                    } else {
+                        return item
+                    }
+                })
+            }
+        })
+    }
+
     
 
   return (
@@ -41,6 +56,7 @@ export const List = props => {
             bread={item.bread}
             insulin={item.insulin}
             delHandler={delHandler}
+            editHandler={editHandler}
             />
         }
         keyExtractor={item => item.id}

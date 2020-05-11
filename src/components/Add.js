@@ -45,6 +45,9 @@ export const Add = ({route, navigation}) => {
       console.log(typeof today, today)
 
 
+      
+
+
       let data = {id: Date.now(),time, glucose, bread, insulin}
       // setState({})
 
@@ -53,6 +56,8 @@ export const Add = ({route, navigation}) => {
       } else {
         setState({[today]: [data]})
       }
+
+
 
       
       //console.log(data)

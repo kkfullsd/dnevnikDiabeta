@@ -11,8 +11,8 @@ export const List = props => {
     const dd = String(today.getDate()).padStart(2, "0");
     const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = today.getFullYear();
-    today = dd + "/" + mm + "/" + yyyy; //Это должно меняться потом
-
+    today = props.today ? props.today : dd + "/" + mm + "/" + yyyy; //Это должно меняться потом
+    
 
     const delHandler = (id) => {
         setState(prev=>{
@@ -38,6 +38,29 @@ export const List = props => {
         })
     }
 
+    useEffect(()=>{
+        async function synchronize() {
+           if (Object.keys(state).length === 0) {
+            console.log('state is empty')
+          let storage = await AsyncStorage.getItem(today, e=>console.log(e))
+          if (storage !== null) {
+            console.log('storage: ', storage)
+            storage = JSON.parse(storage)
+            setState({[today]:storage})
+          }
+        } else {
+            await AsyncStorage.setItem(today, JSON.stringify(state[today]))
+            console.log('state', state)
+        } 
+        }
+
+        synchronize()
+        return () => {
+            console.log("This will be logged on unmount");
+          }
+        
+    })
+
     
 
   return (
@@ -59,7 +82,7 @@ export const List = props => {
             editHandler={editHandler}
             />
         }
-        keyExtractor={item => item.id}
+        keyExtractor={item => `${item.id}`}
         style={{flex: 1}}
         />
         ) : (

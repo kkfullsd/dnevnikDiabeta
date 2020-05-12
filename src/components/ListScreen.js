@@ -1,5 +1,4 @@
 import React from 'react'
-import {View, Image} from 'react-native'
 import {List} from './List'
 import {Add} from './Add'
 import { createStackNavigator } from '@react-navigation/stack';

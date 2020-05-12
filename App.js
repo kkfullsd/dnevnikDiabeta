@@ -6,9 +6,19 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import {ListScreen} from './src/components/ListScreen'
 
+import { YellowBox } from 'react-native';
+
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
+  
+
+  YellowBox.ignoreWarnings([
+    'Non-serializable values were found in the navigation state',
+  ]);
+
+
   return (
     <NavigationContainer>
       <Tab.Navigator initialRouteName='Diary' >

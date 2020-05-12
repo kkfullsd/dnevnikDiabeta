@@ -5,6 +5,7 @@ export const Add = ({route, navigation}) => {
 
     const { setState } = route.params;
     const { state } = route.params;
+    const { propsToday } = route.params;
 
 
     const [time, setTime] = useState(getTime())
@@ -41,7 +42,7 @@ export const Add = ({route, navigation}) => {
       const dd = String(today.getDate()).padStart(2, '0');
       const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
       const yyyy = today.getFullYear();
-      today = dd + '/' + mm + '/' + yyyy
+      today = propsToday ? propsToday : dd + '/' + mm + '/' + yyyy
       console.log(typeof today, today)
 
 

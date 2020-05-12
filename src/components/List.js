@@ -11,7 +11,7 @@ export const List = props => {
     const dd = String(today.getDate()).padStart(2, "0");
     const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = today.getFullYear();
-    today = props.today ? props.today : dd + "/" + mm + "/" + yyyy; //Это должно меняться потом
+    today = (props.today ? props.today : dd + "/" + mm + "/" + yyyy).toString(); //Это должно меняться потом
     
 
     const delHandler = (id) => {
@@ -40,24 +40,20 @@ export const List = props => {
 
     useEffect(()=>{
         async function synchronize() {
+            ///
            if (Object.keys(state).length === 0) {
-            console.log('state is empty')
           let storage = await AsyncStorage.getItem(today, e=>console.log(e))
           if (storage !== null) {
-            console.log('storage: ', storage)
             storage = JSON.parse(storage)
             setState({[today]:storage})
           }
         } else {
             await AsyncStorage.setItem(today, JSON.stringify(state[today]))
-            console.log('state', state)
         } 
         }
 
         synchronize()
-        return () => {
-            console.log("This will be logged on unmount");
-          }
+        return () => (true)
         
     })
 
@@ -67,12 +63,10 @@ export const List = props => {
   <View style={style.main} >
       <Text>{today}</Text>
     {state[today] && state[today].length > 0 ? (
-        // <Text>State ne pustoy</Text>
         <FlatList
         data={state[today]}
         renderItem={({item}) =>
         <Note
-            // key={index}
             id={item.id}
             time={item.time}
             glucose={item.glucose}
@@ -93,7 +87,7 @@ export const List = props => {
     <TouchableOpacity
         activeOpacity={0.7}
         style={style.button}
-        onPress={()=>props.navigation.navigate('Добавить измерение', {setState: setState, state: state})}
+        onPress={()=>props.navigation.navigate('Добавить измерение', {setState: setState, state: state, propsToday: today})}
       >
         <Text style={style.buttonText} >+</Text>
       </TouchableOpacity>
